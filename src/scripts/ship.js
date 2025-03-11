@@ -20,6 +20,9 @@ export default class Ship {
     }
   }
   isHit() {
+    if (this.hits >= this.length) {
+      throw new Error("Ship has received max number of hits");
+    }
     this.hits++;
   }
   isSunk() {

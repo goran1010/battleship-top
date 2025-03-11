@@ -8,10 +8,14 @@ describe("Testing submarine class of Ship", () => {
   });
 
   ss.isHit();
-  test("Submarine hits", () => {
+  test("Submarine hits 1", () => {
     expect(ss.hits).toBe(1);
   });
+  expect(ss.isSunk()).toBe(true);
 
+  test("Submarine hits 2", () => {
+    expect(() => ss.isHit()).toThrow("Ship has received max number of hits");
+  });
   expect(ss.isSunk()).toBe(true);
 });
 
