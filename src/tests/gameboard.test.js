@@ -58,3 +58,25 @@ describe("Testing basic destroyer placement", () => {
     expect(gameboard.board[coor.x + 1][coor.y].type).toMatch("dd");
   });
 });
+
+describe("Testing basic cruiser placement", () => {
+  const gameboard = new Gameboard();
+
+  let type = "cl";
+  let coor = { x: 1, y: 2 };
+  let rotation = "ver";
+
+  gameboard.placeShip(type, coor, rotation);
+
+  test("is cruiser taking exact place on board correctly", () => {
+    expect(gameboard.board[coor.x][coor.y].type).toMatch("cl");
+  });
+
+  test("is cruiser taking second spot on board correctly", () => {
+    expect(gameboard.board[coor.x][coor.y + 1].type).toMatch("cl");
+  });
+
+  test("is cruiser taking third spot on board correctly", () => {
+    expect(gameboard.board[coor.x][coor.y + 2].type).toMatch("cl");
+  });
+});

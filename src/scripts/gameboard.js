@@ -13,7 +13,7 @@ function createEmptyBoard() {
   return array;
 }
 
-function checkValidityOfCoor(type, coor, rotation = "ver", board) {
+function checkValidityOfCoor(type, coor, board, rotation = "hor") {
   let boardUp = board[coor.x][coor.y + 1];
   let boardDown = board[coor.x][coor.y - 1];
   let boardRight = board[coor.x + 1][coor.y];
@@ -23,10 +23,31 @@ function checkValidityOfCoor(type, coor, rotation = "ver", board) {
   if (coor.x > 10 || coor.x < 0 || coor.y > 10 || coor.y < 0) {
     throw new Error("Invalid placement, out of Gameboard bounds");
   }
+
   if (!boardExactCoor && !boardUp && !boardRight && !boardDown && !boardLeft) {
     return true;
   }
-  return false;
+  throw new Error(
+    "Invalid placement, there is a ship at or next to this coordinate"
+  );
+}
+
+function placeSS(type, coor, board) {
+  checkValidityOfCoor(type, coor, board);
+  board[coor.x][coor.y] = new Ship(type);
+}
+
+function placeDD(type, coor, board, rotation) {
+  checkValidityOfCoor(type, coor, board, rotation);
+  board[coor.x][coor.y] = new Ship(type);
+  if (rotation === "hor") {
+    board[coor.x + 1][coor.y] = board[coor.x][coor.y];
+    return;
+  }
+  if (rotation === "ver") {
+    board[coor.x][coor.y + 1] = board[coor.x][coor.y];
+    return;
+  }
 }
 
 export default class Gameboard {
@@ -35,20 +56,13 @@ export default class Gameboard {
   }
 
   placeShip(type, coor, rotation) {
-    if (checkValidityOfCoor(type, coor, rotation, this.board) === false) {
-      throw new Error(
-        "Invalid placement, there is a ship at or next to this coordinate"
-      );
+    if (type === "ss") {
+      placeSS(type, coor, this.board);
+      return;
     }
-    // switch (type) {
-    //   case "ss":
-    //     placeSS();
-    //   case "dd":
-    //     placeDD();
-    //   case "cl":
-    //     placeCL();
-    //   case "bb":
-    //     placeBB();
-    // }
+    if (type === "dd") {
+      placeDD(type, coor, this.board, rotation);
+      return;
+    }
   }
 }
