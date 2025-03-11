@@ -1,3 +1,3 @@
-# repo/project-name
+# Battleship
 
-Description of the project here
+Battleship project for TOP
