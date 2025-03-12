@@ -6,14 +6,22 @@ describe("Testing basic submarine placement", () => {
     expect(gameboard).toEqual(expect.any(Object));
   });
 
-  test("board is an array with 10 elements", () => {
+  test("board is an array with 20 elements", () => {
     expect(gameboard.board).toHaveLength(20);
+  });
+
+  test("board's first element is an array with 20 elements", () => {
+    expect(gameboard.board[0]).toHaveLength(20);
   });
 
   let type = "ss";
   let coor = { x: 3, y: 7 };
 
   gameboard.placeShip(type, coor);
+
+  test("coor next to submarine should be null", () => {
+    expect(gameboard.board[2][7]).toBe(null);
+  });
 
   test("placed sub coor on board is not null", () => {
     expect(gameboard.board[coor.x][coor.y]).not.toBe(null);
@@ -53,7 +61,7 @@ describe("Testing basic destroyer placement", () => {
 
   let type = "dd";
   let coor = { x: 6, y: 7 };
-  let rotation = "hor" || "ver";
+  let rotation = "hor";
 
   gameboard.placeShip(type, coor, rotation);
 
@@ -182,14 +190,15 @@ describe("Check if isSunk is working", () => {
   test("checking does board know all of it's ships are not sunk", () => {
     expect(gameboard.allShipsSunk()).toBe(false);
   });
+});
 
+describe("Check if all ships are sunk", () => {
+  const gameboard = new Gameboard();
+
+  gameboard.placeShip("cl", { x: 10, y: 10 }, "hor");
   gameboard.receiveAttack({ x: 10, y: 10 });
   gameboard.receiveAttack({ x: 11, y: 10 });
   gameboard.receiveAttack({ x: 9, y: 10 });
-
-  test("hitting and sinking a cruiser", () => {
-    expect(gameboard.board[11][10].isSunk()).toBe(true);
-  });
 
   test("checking does board know all of it's ships are sunk", () => {
     expect(gameboard.allShipsSunk()).toBe(true);

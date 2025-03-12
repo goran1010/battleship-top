@@ -1,16 +1,8 @@
 import { placeBB, placeCL, placeDD, placeSS } from "./shipPlacement";
 
 function createEmptyBoard() {
-  const array = [];
-  for (let i = 0; i < 20; i++) {
-    array.push([]);
-    array.forEach((element) => {
-      for (let j = 0; j < 20; j++) {
-        element.push(null);
-      }
-    });
-  }
-  return array;
+  let board = Array.from({ length: 20 }, () => Array(20).fill(null));
+  return board;
 }
 
 export default class Gameboard {

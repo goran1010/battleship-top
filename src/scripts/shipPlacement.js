@@ -32,6 +32,7 @@ function placeSS(type, coor, board) {
 
 function placeDD(type, coor, board, rotation) {
   let validity = checkValidityOfCoor(coor, board);
+
   if (validity === true) {
     if (rotation === "hor") {
       let coor2 = { x: coor.x + 1, y: coor.y };
@@ -62,12 +63,13 @@ function placeDD(type, coor, board, rotation) {
         );
       }
     }
+    if (validity === false) {
+      throw new Error(
+        "Invalid placement, there is a ship at or next to this coordinate"
+      );
+    }
   }
-  if (validity === false) {
-    throw new Error(
-      "Invalid placement, there is a ship at or next to this coordinate"
-    );
-  }
+
   throw new Error("Invalid placement, out of Gameboard bounds");
 }
 
