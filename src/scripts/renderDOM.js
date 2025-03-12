@@ -8,9 +8,8 @@ export default function renderDOM(human, computer) {
     column.forEach((row, indexY) => {
       const div = document.createElement("div");
       if (row !== null) {
-        div.textContent = "X";
       }
-      div.className = "square";
+      div.classList.add("square");
       div.setAttribute("data-x", indexX);
       div.setAttribute("data-y", indexY);
       temp.appendChild(div);
@@ -23,11 +22,11 @@ export default function renderDOM(human, computer) {
     column.forEach((row, indexY) => {
       const div = document.createElement("div");
       if (row !== null) {
-        div.textContent = "X";
+        div.classList.add("has-ship");
       }
       div.setAttribute("data-x", indexX);
       div.setAttribute("data-y", indexY);
-      div.className = "square";
+      div.classList.add("square");
       temp.appendChild(div);
     });
     humanContainer.appendChild(temp);
