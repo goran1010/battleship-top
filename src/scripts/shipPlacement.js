@@ -1,7 +1,7 @@
 import Ship from "./ship";
 
 function checkValidityOfCoor(coor, board) {
-  if (coor.x > 18 || coor.x < 1 || coor.y > 18 || coor.y < 1) {
+  if (coor.x > 13 || coor.x < 1 || coor.y > 13 || coor.y < 1) {
     return -1;
   }
   let boardUp = board[coor.x][coor.y + 1];
@@ -20,7 +20,7 @@ function placeSS(type, coor, board) {
   let validity = checkValidityOfCoor(coor, board);
   if (validity === true) {
     board[coor.x][coor.y] = new Ship(type);
-    return;
+    return true;
   }
   if (validity === false) {
     throw new Error(
@@ -40,7 +40,7 @@ function placeDD(type, coor, board, rotation) {
       if (validity2 === true) {
         board[coor.x][coor.y] = new Ship(type);
         board[coor.x + 1][coor.y] = board[coor.x][coor.y];
-        return;
+        return true;
       }
       if (validity2 === false) {
         throw new Error(
@@ -55,7 +55,7 @@ function placeDD(type, coor, board, rotation) {
       if (validity2 === true) {
         board[coor.x][coor.y] = new Ship(type);
         board[coor.x][coor.y + 1] = board[coor.x][coor.y];
-        return;
+        return true;
       }
       if (validity2 === false) {
         throw new Error(
@@ -86,7 +86,7 @@ function placeCL(type, coor, board, rotation) {
           board[coor.x][coor.y] = new Ship(type);
           board[coor.x + 1][coor.y] = board[coor.x][coor.y];
           board[coor.x - 1][coor.y] = board[coor.x][coor.y];
-          return;
+          return true;
         }
         if (validity3 === false) {
           throw new Error(
@@ -110,7 +110,7 @@ function placeCL(type, coor, board, rotation) {
           board[coor.x][coor.y] = new Ship(type);
           board[coor.x][coor.y + 1] = board[coor.x][coor.y];
           board[coor.x][coor.y - 1] = board[coor.x][coor.y];
-          return;
+          return true;
         }
         if (validity3 === false) {
           throw new Error(
@@ -150,7 +150,7 @@ function placeBB(type, coor, board, rotation) {
             board[coor.x + 1][coor.y] = board[coor.x][coor.y];
             board[coor.x - 1][coor.y] = board[coor.x][coor.y];
             board[coor.x + 2][coor.y] = board[coor.x][coor.y];
-            return;
+            return true;
           }
           if (validity4 === false) {
             throw new Error(
@@ -184,7 +184,7 @@ function placeBB(type, coor, board, rotation) {
             board[coor.x][coor.y + 1] = board[coor.x][coor.y];
             board[coor.x][coor.y - 1] = board[coor.x][coor.y];
             board[coor.x][coor.y + 2] = board[coor.x][coor.y];
-            return;
+            return true;
           }
           if (validity4 === false) {
             throw new Error(

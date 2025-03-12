@@ -5,5 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <div class="container">
+      <div class="computer-container"></div>
+      <div class="human-container"></div>
+    </div>
+    <div class="controls">
+      <div class="top"><button>New Game</button></div>
+      <div class="mid"><button>Place Ship</button></div>
+      <div class="bottom">
+        <label for="type"
+          >Ship type
+          <select name="type" id="type">
+            <option value="ss">Submarine</option>
+            <option value="dd">Destroyer</option>
+            <option value="cl">Cruiser</option>
+            <option value="bb">Battleship</option>
+          </select></label
+        >
+        <label for="rotation"
+          >Ship rotation
+          <select name="rotation" id="rotation">
+            <option value="hor">Horizontal</option>
+            <option value="ver">Vertical</option>
+          </select></label
+        >
+      </div>
+    </div>
+  </body>
 </html>

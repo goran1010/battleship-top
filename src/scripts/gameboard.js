@@ -1,7 +1,7 @@
 import { placeBB, placeCL, placeDD, placeSS } from "./shipPlacement";
 
 function createEmptyBoard() {
-  let board = Array.from({ length: 20 }, () => Array(20).fill(null));
+  let board = Array.from({ length: 15 }, () => Array(15).fill(null));
   return board;
 }
 
@@ -10,29 +10,46 @@ export default class Gameboard {
     this.board = createEmptyBoard();
     this.misses = [];
     this.hits = [];
+    this.numberOfShips = { ss: 0, dd: 0, cl: 0, bb: 0 };
   }
 
   placeShip(type, coor, rotation) {
     switch (type) {
       case "ss":
-        placeSS(type, coor, this.board, rotation);
-        break;
+        let result = placeSS(type, coor, this.board, rotation);
+        if (result === true) {
+          this.numberOfShips.ss++;
+          return result;
+        }
+
       case "dd":
-        placeDD(type, coor, this.board, rotation);
-        break;
+        let result2 = placeDD(type, coor, this.board, rotation);
+        if (result2 === true) {
+          this.numberOfShips.dd++;
+          return result2;
+        }
+
       case "cl":
-        placeCL(type, coor, this.board, rotation);
-        break;
+        let result3 = placeCL(type, coor, this.board, rotation);
+        if (result3 === true) {
+          this.numberOfShips.cl++;
+          return result3;
+        }
+
       case "bb":
-        placeBB(type, coor, this.board, rotation);
-        break;
+        let result4 = placeBB(type, coor, this.board, rotation);
+        if (result4 === true) {
+          this.numberOfShips.bb++;
+          return result4;
+        }
+
       default:
         throw new Error("Unknown ship type");
     }
   }
 
   receiveAttack(coor) {
-    if (coor.x < 0 || coor.x > 20 || coor.y < 0 || coor.y > 20) {
+    if (coor.x < 0 || coor.x > 15 || coor.y < 0 || coor.y > 15) {
       throw new Error("Invalid coordinates. Out of gameboard bounds.");
     }
     if (this.board[coor.x][coor.y] === null) {

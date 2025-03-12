@@ -7,11 +7,11 @@ describe("Testing basic submarine placement", () => {
   });
 
   test("board is an array with 20 elements", () => {
-    expect(gameboard.board).toHaveLength(20);
+    expect(gameboard.board).toHaveLength(15);
   });
 
   test("board's first element is an array with 20 elements", () => {
-    expect(gameboard.board[0]).toHaveLength(20);
+    expect(gameboard.board[0]).toHaveLength(15);
   });
 
   let type = "ss";
@@ -202,5 +202,43 @@ describe("Check if all ships are sunk", () => {
 
   test("checking does board know all of it's ships are sunk", () => {
     expect(gameboard.allShipsSunk()).toBe(true);
+  });
+});
+
+describe("Check what placeShip returns", () => {
+  const gameboard = new Gameboard();
+
+  test("successful placeShip", () => {
+    expect(gameboard.placeShip("dd", { x: 5, y: 6 }, "hor")).toBe(true);
+  });
+
+  test("unsuccessful placeShip", () => {
+    expect(() => gameboard.placeShip("dd", { x: 55, y: 6 }, "hor")).not.toBe(
+      true
+    );
+  });
+});
+
+describe("Check what number of ships on gameboard", () => {
+  const gameboard = new Gameboard();
+
+  gameboard.placeShip("dd", { x: 5, y: 6 }, "hor");
+
+  gameboard.placeShip("cl", { x: 10, y: 10 }, "hor");
+  gameboard.placeShip("bb", { x: 4, y: 4 }, "hor");
+  gameboard.placeShip("dd", { x: 8, y: 8 }, "hor");
+
+  test("number of submarines", () => {
+    expect(gameboard.numberOfShips.ss).toBe(0);
+  });
+
+  test("number of destroyers", () => {
+    expect(gameboard.numberOfShips.dd).toBe(2);
+  });
+  test("number of cruisers", () => {
+    expect(gameboard.numberOfShips.cl).toBe(1);
+  });
+  test("number of battleships", () => {
+    expect(gameboard.numberOfShips.bb).toBe(1);
   });
 });

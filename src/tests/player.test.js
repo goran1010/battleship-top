@@ -7,6 +7,6 @@ describe("Testing Player class", () => {
     expect(human.type).toMatch("human");
   });
   test("create human player board", () => {
-    expect(human.gameboard.board).toHaveLength(20);
+    expect(human.gameboard.board).toHaveLength(15);
   });
 });
