@@ -136,3 +136,62 @@ describe("Testing basic battleship placement", () => {
     );
   });
 });
+
+describe("Receive attack function", () => {
+  let coor = { x: 0, y: 0 };
+  const gameboard = new Gameboard();
+  let coor2 = { x: 4, y: 4 };
+  gameboard.placeShip("bb", coor2, "hor");
+  let coor3 = { x: 3, y: 4 };
+
+  test("invalid x coordinates for attack", () => {
+    expect(() => gameboard.receiveAttack({ x: 34, y: 5 })).toThrow(
+      "Invalid coordinates. Out of gameboard bounds."
+    );
+  });
+
+  test("invalid y coordinates for attack", () => {
+    expect(() => gameboard.receiveAttack({ x: 5, y: 25 })).toThrow(
+      "Invalid coordinates. Out of gameboard bounds."
+    );
+  });
+
+  test("miss attack", () => {
+    expect(gameboard.receiveAttack(coor)).toBe(false);
+  });
+
+  test("hit direct attack", () => {
+    expect(gameboard.receiveAttack(coor2)).toBe(true);
+  });
+  test("hit second square attack", () => {
+    expect(gameboard.receiveAttack(coor3)).toBe(true);
+  });
+});
+
+describe("Check if isSunk is working", () => {
+  const gameboard = new Gameboard();
+  gameboard.placeShip("ss", { x: 4, y: 4 });
+  gameboard.receiveAttack({ x: 4, y: 4 });
+
+  test("hitting and sinking a submarine", () => {
+    expect(gameboard.board[4][4].isSunk()).toBe(true);
+  });
+
+  gameboard.placeShip("cl", { x: 10, y: 10 }, "hor");
+
+  test("checking does board know all of it's ships are not sunk", () => {
+    expect(gameboard.allShipsSunk()).toBe(false);
+  });
+
+  gameboard.receiveAttack({ x: 10, y: 10 });
+  gameboard.receiveAttack({ x: 11, y: 10 });
+  gameboard.receiveAttack({ x: 9, y: 10 });
+
+  test("hitting and sinking a cruiser", () => {
+    expect(gameboard.board[11][10].isSunk()).toBe(true);
+  });
+
+  test("checking does board know all of it's ships are sunk", () => {
+    expect(gameboard.allShipsSunk()).toBe(true);
+  });
+});
