@@ -6,14 +6,54 @@
     <title>Document</title>
   </head>
   <body>
+    <h1 class="result">Playing...</h1>
     <div class="container">
       <div class="computer-container"></div>
       <div class="human-container"></div>
     </div>
     <div class="controls">
-      <div class="top"><button class="restart">Restart Game</button></div>
+      <div class="top">
+        <button class="restart">Restart Game</button
+        ><button class="play">Start Attacking</button>
+      </div>
       <div class="mid">
-        <button>Place Ship</button><button class="start">Start Playing</button>
+        <label for="coor-x"
+          >Coordinate X
+          <select name="coor-x" id="coor-x">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+          </select></label
+        >
+        <label for="coor-y"
+          >Coordinate Y
+          <select name="coor-y" id="coor-y">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+          </select></label
+        >
+        <button class="place-ship">Place Ship</button>
       </div>
 
       <div class="bottom">

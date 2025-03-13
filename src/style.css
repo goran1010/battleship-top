@@ -35,7 +35,8 @@ body {
 .human-container {
   background-color: rgb(186, 181, 247);
 }
-.square {
+.human-square,
+.computer-square {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,14 +81,31 @@ button {
   cursor: pointer;
 }
 
-.top button {
+.play {
   border: 1px solid aqua;
   background-color: aqua;
 }
-.mid button {
+.restart {
+  border: 1px solid rgb(255, 0, 128);
+  background-color: rgb(255, 0, 128);
+}
+.place-ship {
   border: 1px solid chartreuse;
   background-color: chartreuse;
 }
 button:hover {
   border: 1px solid black;
+}
+.has-ship {
+  background-color: black;
+}
+.started {
+  background-color: rgb(6, 105, 105);
+}
+.miss {
+  border: 2px solid rgb(173, 15, 15);
+}
+.hit {
+  background-color: black;
+  border: 2px solid rgb(173, 15, 15);
 }

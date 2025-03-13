@@ -101,6 +101,14 @@ describe("Testing basic cruiser placement", () => {
   test("is cruiser taking third spot on board correctly", () => {
     expect(gameboard.board[coor.x][coor.y - 1].type).toMatch("cl");
   });
+
+  let rotation2 = "ver";
+  let coor3 = { x: 1, y: 3 };
+  test("is cruiser overlapping correctly horizontally by throwing error", () => {
+    expect(() => gameboard.placeShip(type, coor3, rotation2)).toThrow(
+      "Invalid placement, there is a ship at or next to this coordinate"
+    );
+  });
 });
 
 describe("Testing basic battleship placement", () => {
@@ -127,22 +135,6 @@ describe("Testing basic battleship placement", () => {
   test("is battleship taking fourth spot on board correctly", () => {
     expect(gameboard.board[coor.x][coor.y + 2].type).toMatch("bb");
   });
-
-  let coor2 = { x: 3, y: 2 };
-
-  test("is battleship overlapping correctly vertically by throwing error", () => {
-    expect(() => gameboard.placeShip(type, coor2, rotation)).toThrow(
-      "Invalid placement, there is a ship at or next to this coordinate"
-    );
-  });
-
-  let rotation2 = "hor";
-  let coor3 = { x: 4, y: 2 };
-  test("is battleship overlapping correctly horizontally by throwing error", () => {
-    expect(() => gameboard.placeShip(type, coor3, rotation2)).toThrow(
-      "Invalid placement, there is a ship at or next to this coordinate"
-    );
-  });
 });
 
 describe("Receive attack function", () => {
@@ -167,9 +159,15 @@ describe("Receive attack function", () => {
   test("miss attack", () => {
     expect(gameboard.receiveAttack(coor)).toBe(false);
   });
+  test("miss attack on the same place", () => {
+    expect(() => gameboard.receiveAttack(coor)).toThrow("Already missed here");
+  });
 
   test("hit direct attack", () => {
     expect(gameboard.receiveAttack(coor2)).toBe(true);
+  });
+  test("hit on the same place", () => {
+    expect(() => gameboard.receiveAttack(coor2)).toThrow("Already hit here");
   });
   test("hit second square attack", () => {
     expect(gameboard.receiveAttack(coor3)).toBe(true);
@@ -229,16 +227,41 @@ describe("Check what number of ships on gameboard", () => {
   gameboard.placeShip("dd", { x: 8, y: 8 }, "hor");
 
   test("number of submarines", () => {
-    expect(gameboard.numberOfShips.ss).toBe(0);
+    expect(gameboard.currentNumberOfShips.ss).toBe(0);
   });
 
   test("number of destroyers", () => {
-    expect(gameboard.numberOfShips.dd).toBe(2);
+    expect(gameboard.currentNumberOfShips.dd).toBe(2);
   });
   test("number of cruisers", () => {
-    expect(gameboard.numberOfShips.cl).toBe(1);
+    expect(gameboard.currentNumberOfShips.cl).toBe(1);
   });
   test("number of battleships", () => {
-    expect(gameboard.numberOfShips.bb).toBe(1);
+    expect(gameboard.currentNumberOfShips.bb).toBe(1);
+  });
+});
+
+describe("Testing max number of ships", () => {
+  const gameboard = new Gameboard();
+
+  gameboard.placeShip("dd", { x: 5, y: 6 }, "hor");
+  gameboard.placeShip("bb", { x: 4, y: 4 }, "hor");
+  gameboard.placeShip("dd", { x: 8, y: 8 }, "hor");
+
+  test("testing how many max number of submarines", () => {
+    expect(gameboard.maxNumberOfShips.ss).toBe(4);
+  });
+  test("testing how many max number of battleships", () => {
+    expect(gameboard.maxNumberOfShips.bb).toBe(1);
+  });
+  test("testing placing too many battleships", () => {
+    expect(() => gameboard.placeShip("bb", { x: 11, y: 11 }, "hor")).toThrow(
+      "Max number of battleships reached"
+    );
+  });
+  test("testing placing not too many submarines", () => {
+    expect(() => gameboard.placeShip("ss", { x: 2, y: 2 })).not.toThrow(
+      "Max number of submarines reached"
+    );
   });
 });
