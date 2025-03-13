@@ -3,8 +3,16 @@ import restartGame, {
   attackShips,
   placeShips,
 } from "./playGameLogic";
+import { placeShipsRandomly } from "./playGameLogic";
 
 export const placeShip = document.querySelector(".place-ship");
+
+const placeRandom = document.querySelector(".random");
+placeRandom.addEventListener("click", () => {
+  placeShipsRandomly();
+  gameStarted.classList.add("started");
+  gameStarted.textContent = "Attacking...";
+});
 
 const restartGameButton = document.querySelector(".restart");
 restartGameButton.addEventListener("click", () => {

@@ -5,8 +5,8 @@ import { AIAttack, AIshipPlace } from "./AIPlays.js";
 
 const result = document.querySelector("h1");
 
-let human = new Player("human");
-let computer = new Player("computer");
+export let human = new Player("human");
+export let computer = new Player("computer");
 
 let startAttacking = false;
 let isGameOver = false;
@@ -19,6 +19,7 @@ export default function restartGame() {
     computer = new Player("computer");
     startAttacking = false;
     AIshipPlace(computer);
+
     renderBoards(human, computer);
   } catch (error) {
     console.log(error);
@@ -50,10 +51,18 @@ export function placeShips(type, coor, rotation) {
   if (startAttacking === true) return;
   try {
     human.gameboard.placeShip(type, coor, rotation);
+    allowAttack();
     renderBoards(human, computer);
   } catch (error) {
     console.log(error);
   }
+}
+
+export function placeShipsRandomly() {
+  if (startAttacking === true) return;
+  AIshipPlace(human);
+  allowAttack();
+  renderBoards(human, computer);
 }
 
 let receiver;
@@ -72,7 +81,7 @@ export function attackShips(coor, attacker) {
       gameOver(receiver);
     }
     if (attacker === "human") {
-      AIAttack();
+      AIAttack(human);
     }
     renderBoards(human, computer);
   } catch (error) {

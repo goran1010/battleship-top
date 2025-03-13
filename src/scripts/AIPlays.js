@@ -11,56 +11,56 @@ function randomCoor() {
 }
 
 export function AIshipPlace(computer) {
-  try {
-    let type = "bb";
-    let result;
-    do {
-      result = computer.gameboard.placeShip(
-        type,
-        randomCoor(),
-        randomRotation()
-      );
-    } while (result !== true);
-    console.log(result);
-    type = "cl";
-    for (let i = 0; i < 2; i++) {
-      do {
-        result = computer.gameboard.placeShip(
-          type,
-          randomCoor(),
-          randomRotation()
-        );
-      } while (result !== true);
+  let bb =
+    computer.gameboard.maxNumberOfShips.bb -
+    computer.gameboard.currentNumberOfShips.bb;
+  let cl =
+    computer.gameboard.maxNumberOfShips.cl -
+    computer.gameboard.currentNumberOfShips.cl;
+  let dd =
+    computer.gameboard.maxNumberOfShips.dd -
+    computer.gameboard.currentNumberOfShips.dd;
+  let ss =
+    computer.gameboard.maxNumberOfShips.ss -
+    computer.gameboard.currentNumberOfShips.ss;
+
+  const ships = [
+    { type: "bb", count: bb },
+    { type: "cl", count: cl },
+    { type: "dd", count: dd },
+    { type: "ss", count: ss },
+  ];
+
+  for (const ship of ships) {
+    for (let i = 0; i < ship.count; i++) {
+      let placed = false;
+      while (!placed) {
+        try {
+          placed = computer.gameboard.placeShip(
+            ship.type,
+            randomCoor(),
+            randomRotation()
+          );
+        } catch (error) {}
+      }
     }
-    console.log(result);
-    type = "dd";
-    for (let i = 0; i < 3; i++) {
-      do {
-        result = computer.gameboard.placeShip(
-          type,
-          randomCoor(),
-          randomRotation()
-        );
-      } while (result !== true);
-    }
-    console.log(result);
-    type = "ss";
-    for (let i = 0; i < 4; i++) {
-      do {
-        result = computer.gameboard.placeShip(
-          type,
-          randomCoor(),
-          randomRotation()
-        );
-      } while (result !== true);
-    }
-    console.log(result);
-  } catch (error) {
-    console.log(error);
   }
 }
 
-export function AIAttack() {
-  //get random coor , care to not get coor where hits or misses already
-  attackShips(coor, "computer");
+function getCoor(human) {
+  const possibleCoor = [];
+  for (let x = 1; x < 14; x++) {
+    for (let y = 1; y < 14; y++) {
+      possibleCoor.push({ x: x, y: y });
+    }
+  }
+}
+
+export function AIAttack(human) {
+  try {
+    const coor = getCoor(human);
+    human.gameboard.receiveAttack(coor);
+  } catch (error) {
+    console.log(error);
+  }
 }

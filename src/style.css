@@ -109,3 +109,7 @@ button:hover {
   background-color: black;
   border: 2px solid rgb(173, 15, 15);
 }
+.random {
+  border: 1px solid chartreuse;
+  background-color: chartreuse;
+}
