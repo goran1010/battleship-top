@@ -82,6 +82,9 @@ export function attackShips(coor, attacker) {
     }
     if (attacker === "human") {
       AIAttack(human);
+      if (human.gameboard.allShipsSunk() === true) {
+        gameOver(human);
+      }
     }
     renderBoards(human, computer);
   } catch (error) {

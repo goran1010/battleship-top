@@ -48,12 +48,25 @@ export function AIshipPlace(computer) {
 }
 
 function getCoor(human) {
-  const possibleCoor = [];
+  let possibleCoor = [];
   for (let x = 1; x < 14; x++) {
     for (let y = 1; y < 14; y++) {
       possibleCoor.push({ x: x, y: y });
     }
   }
+
+  possibleCoor = possibleCoor.filter((coor) => {
+    return (
+      !human.gameboard.misses.some(
+        (miss) => miss.x === coor.x && miss.y === coor.y
+      ) &&
+      !human.gameboard.hits.some((hit) => hit.x === coor.x && hit.y === coor.y)
+    );
+  });
+
+  let randomIndex = Math.floor(Math.random() * possibleCoor.length);
+
+  return possibleCoor[randomIndex];
 }
 
 export function AIAttack(human) {
