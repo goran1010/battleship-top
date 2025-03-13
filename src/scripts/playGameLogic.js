@@ -1,6 +1,7 @@
 import renderBoards from "./renderDOM.js";
 import Player from "./player.js";
 import { placeShip } from "./gameUI.js";
+import { AIAttack, AIshipPlace } from "./AIPlays.js";
 
 const result = document.querySelector("h1");
 
@@ -11,13 +12,17 @@ let startAttacking = false;
 let isGameOver = false;
 
 export default function restartGame() {
-  result.textContent = "Playing...";
-  isGameOver = false;
-  human = new Player("human");
-  computer = new Player("computer");
-  startAttacking = false;
-  // computer.gameboard.placeShip("ss", { x: 1, y: 1 });
-  renderBoards(human, computer);
+  try {
+    result.textContent = "Playing...";
+    isGameOver = false;
+    human = new Player("human");
+    computer = new Player("computer");
+    startAttacking = false;
+    AIshipPlace(computer);
+    renderBoards(human, computer);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export function allowAttack() {
@@ -60,11 +65,14 @@ export function attackShips(coor, attacker) {
     receiver = human;
   }
 
-  // if (startAttacking === false) return;
+  if (startAttacking === false) return;
   try {
     receiver.gameboard.receiveAttack(coor);
     if (receiver.gameboard.allShipsSunk() === true) {
       gameOver(receiver);
+    }
+    if (attacker === "human") {
+      AIAttack();
     }
     renderBoards(human, computer);
   } catch (error) {
